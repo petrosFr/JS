@@ -30,11 +30,87 @@ $(document).ready(function(){
         var myVariable2 = <?php echo(json_encode($_POST["threshold"])); ?>;
 
         $('#div1').load("script.php", {'classname': myVariable ,'threshold': myVariable2}, function(){
-                    $("#testimg").hide();     
+                    $("#testimg").hide();
+                    var classNames;
+                        var v1 = <?php echo(json_encode($_POST["classname"])); ?>;
+                        var v2 = <?php echo(json_encode($_POST["threshold"])); ?>;
+                    //$.getJSON('class.json', function(json) {
+                    $.getJSON('Classes_'+v1+'_'+v2+'.json', function(json) {
+                    //$.getJSON('Classes_Film_99.json', function(json) {
+                      console.log(json);
+                      for (var i = 0; i < json.length; i++) {
+                        console.log(i);
+                        $(".class-lists").append("<div class='checkbox'> <label><input name='deletedclasses[]' type='checkbox' value='" + json[i] + "' checked>" + json[i] + "</label></div>");
+                      }
+                    });
+
+
+                    function readTextFile(file) {
+                      console.log(classNames);
+                      var rawFile = new XMLHttpRequest();
+                      rawFile.open("GET", file, false);
+                      rawFile.onreadystatechange = function() {
+                        if (rawFile.readyState === 4) {
+                          if (rawFile.status === 200 || rawFile.status == 0) {
+                            var allText = rawFile.responseText;
+                            var lines = allText.val().split('\n');
+                            for (var x = 0; x < lines.length; x++) {
+                              for(var y = 0; y < classNames.length; y++)
+                              {
+                                if((lines[x].indexOf(classNames[y])) !=-1 && (lines[x].indexOf('class')) == -1 ){
+                                  lines.splice(x,1);
+                                  x=x-1;
+                                }
+                              }
+                            }
+                            var newtext = lines.join('\n');
+                            for(var y = 0; y < classNames.length; y++)
+                            {
+                              if((newtext.indexOf('class '+classNames[y])) !=-1 ){
+                                var from = newtext.indexOf('class '+classNames[y]);
+                                var to  = newtext.indexOf('}');
+                                newtext = newtext.substr(0, from) + newtext.substr(to+1);
+                              }
+                            }
+
+
+                             $.ajax({
+                                 url: 'gen.php',
+                                 type: "POST",
+                                 dataType:'text',
+                                 data: {'data': newtext},
+                                 success: function(data){
+                                     alert('ok');
+                                 }
+                             });
+
+                          }
+                        }
+                      }
+                      rawFile.send(null);
+                    }
+
+
+
+
+                      $("#getDeletedclass").click(function() {
+                  classNames = $('input[name="deletedclasses[]"]:checked').map(function () {
+                  return this.value;}).get();
+                  readTextFile("CModel_Film_30.txt");
+                  });
+
         });
-        
+
 });
 </script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -81,83 +157,12 @@ $(document).ready(function(){
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="js/custom.js"></script>
-  <script>
-    window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
-  </script>
-  <script src="js/bootstrap.min.js"></script>
+
   <script>
   $(document).ready(function() {
-    var classNames;
-        var v1 = <?php echo(json_encode($_POST["classname"])); ?>;
-        var v2 = <?php echo(json_encode($_POST["threshold"])); ?>;
-    //$.getJSON('class.json', function(json) {
-    $.getJSON('Classes_'+v1+'_'+v2+'.json', function(json) {
-    //$.getJSON('Classes_Film_99.json', function(json) {
-      console.log(json);
-      for (var i = 0; i < json.length; i++) {
-        console.log(i);
-        $(".class-lists").append("<div class='checkbox'> <label><input name='deletedclasses[]' type='checkbox' value='" + json[i] + "' checked>" + json[i] + "</label></div>");
-      }
-    });
-    
-    
-    function readTextFile(file) {
-      console.log(classNames);
-      var rawFile = new XMLHttpRequest();
-      rawFile.open("GET", file, false);
-      rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4) {
-          if (rawFile.status === 200 || rawFile.status == 0) {
-            var allText = rawFile.responseText;
-            var lines = allText.val().split('\n');
-            for (var x = 0; x < lines.length; x++) {
-              for(var y = 0; y < classNames.length; y++)
-              {
-                if((lines[x].indexOf(classNames[y])) !=-1 && (lines[x].indexOf('class')) == -1 ){
-                  lines.splice(x,1);
-                  x=x-1;
-                }
-              }
-            }
-            var newtext = lines.join('\n');
-            for(var y = 0; y < classNames.length; y++)
-            {
-              if((newtext.indexOf('class '+classNames[y])) !=-1 ){
-                var from = newtext.indexOf('class '+classNames[y]);
-                var to  = newtext.indexOf('}');
-                newtext = newtext.substr(0, from) + newtext.substr(to+1);
-              }
-            }
-
-
-             $.ajax({
-                 url: 'gen.php',
-                 type: "POST",
-                 dataType:'text',
-                 data: {'data': newtext},
-                 success: function(data){
-                     alert('ok');
-                 }
-             });
-
-          }
-        }
-      }
-      rawFile.send(null);
-    }
-
-
-    
-    
-      $("#getDeletedclass").click(function() {
-  classNames = $('input[name="deletedclasses[]"]:checked').map(function () {
-  return this.value;}).get();
-  readTextFile("CModel_Film_30.txt");
-  });
 
   });
-    
+
     </script>
 </body>
 </html>

@@ -36,8 +36,6 @@ $(document).ready(function(){
         var v2 = <?php echo(json_encode($_POST["threshold"])); ?>;
 //     //$.getJSON('class.json', function(json) {   pictures_uml/
     $.getJSON('pictures_uml/JSONclasses_'+v1+'_'+v2+'.json', function(json) {
-    //$.getJSON('Classes_Film_99.json', function(json) {
-      console.log(json);
       for (var i = 0; i < json.length; i++) {
         console.log(i);
         $(".class-lists").append("<div class='checkbox'> <label><input name='deletedclasses[]' type='checkbox' value='" + json[i] + "' checked>" + json[i] + "</label></div>");
@@ -77,15 +75,15 @@ $(document).ready(function(){
                  url: 'gen.php',
                  type: "POST",
                  dataType:'text',
-                 data: {'data': newtext,'filename':'test.txt'},
+                 data: {'data': newtext,'filename':'CModel_'+myVariable+'_'+myVariable2+'_mod.txt'},
                  success: function(data){
                    $.ajax({
                        url: 'script2.php',
                        type: "POST",
                        dataType:'text',
-                       data: {'filename':'test.txt'},
+                       data: {'classname':myVariable,'threshold':myVariable2},
                        success: function(data){
-
+                           document.getElementById('imgaeBox').src= "pictures_uml/CModel_"+myVariable+"_"+myVariable2+".png";
                        }
                    });
                  }

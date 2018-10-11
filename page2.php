@@ -29,8 +29,8 @@ $(document).ready(function(){
         var myVariable2 = <?php echo(json_encode($_POST["threshold"])); ?>;
 
         $('#div1').load("script.php", {'classname': myVariable ,'threshold': myVariable2}, function(){
-                    $("#testimg").hide();   
-                    
+                    $("#testimg").hide();
+
                     var classNames;
         var v1 = <?php echo(json_encode($_POST["classname"])); ?>;
         var v2 = <?php echo(json_encode($_POST["threshold"])); ?>;
@@ -41,9 +41,9 @@ $(document).ready(function(){
       for (var i = 0; i < json.length; i++) {
         console.log(i);
         $(".class-lists").append("<div class='checkbox'> <label><input name='deletedclasses[]' type='checkbox' value='" + json[i] + "' checked>" + json[i] + "</label></div>");
-      }         
+      }
         });
-        
+
             function readTextFile(file) {
       console.log(classNames);
       var rawFile = new XMLHttpRequest();
@@ -77,9 +77,17 @@ $(document).ready(function(){
                  url: 'gen.php',
                  type: "POST",
                  dataType:'text',
-                 data: {'data': newtext},
+                 data: {'data': newtext,'filename':'test.txt'},
                  success: function(data){
-                     alert('ok');
+                   $.ajax({
+                       url: 'script2.php',
+                       type: "POST",
+                       dataType:'text',
+                       data: {'filename':'test.txt'},
+                       success: function(data){
+
+                       }
+                   });
                  }
              });
 
@@ -88,16 +96,16 @@ $(document).ready(function(){
       }
       rawFile.send(null);
     }
-        
-        
+
+
     $("#getDeletedclass").click(function() {
         classNames = $('input[name="deletedclasses[]"]:checked').map(function () {
     return this.value;}).get();
     readTextFile("pictures_uml/CModel_"+v1+"_"+v2+".txt");
   });
 
-  });    
-        
+  });
+
 });
 </script>
 </head>
@@ -139,11 +147,6 @@ $(document).ready(function(){
     window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
   </script>
   <script src="js/bootstrap.min.js"></script>
-  <script>
-  $(document).ready(function() {
-    
-    });
-    
-    </script>
+
 </body>
 </html>

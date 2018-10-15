@@ -77,7 +77,8 @@ $(document).ready(function(){
                  dataType:'text',
                  data: {'data': newtext,'filename':'CModel_'+myVariable+'_'+myVariable2+'_mod.txt'},
                  success: function(data){
-                   $.ajax({
+                   alert("File Generated");
+                /**   $.ajax({
                        url: 'script2.php',
                        type: "POST",
                        dataType:'text',
@@ -85,7 +86,7 @@ $(document).ready(function(){
                        success: function(data){
                            document.getElementById('imgaeBox').src= "pictures_uml/CModel_"+myVariable+"_"+myVariable2+".png";
                        }
-                   });
+                   }); **/
                  }
              });
 

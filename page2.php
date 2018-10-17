@@ -27,30 +27,33 @@
 $(document).ready(function(){
         var myVariable = <?php echo(json_encode($_POST["classname"])); ?>;
         var myVariable2 = <?php echo(json_encode($_POST["threshold"])); ?>;
-
         $('#div1').load("script.php", {'classname': myVariable ,'threshold': myVariable2}, function(){
                     $("#testimg").hide();
-
                     var classNames;
-        var v1 = <?php echo(json_encode($_POST["classname"])); ?>;
-        var v2 = <?php echo(json_encode($_POST["threshold"])); ?>;
-//     //$.getJSON('class.json', function(json) {   pictures_uml/
-    $.getJSON('pictures_uml/JSONclasses_'+v1+'_'+v2+'.json', function(json) {
+
+    $.getJSON('pictures_uml/JSONclasses_'+myVariable+'_'+myVariable2+'.json', function(json) {
       for (var i = 0; i < json.length; i++) {
-        console.log(i);
+
         $(".class-lists").append("<div class='checkbox'> <label><input name='deletedclasses[]' type='checkbox' value='" + json[i] + "' checked>" + json[i] + "</label></div>");
+        
+        
+        
       }
         });
+        
 
+        
             function readTextFile(file) {
       console.log(classNames);
       var rawFile = new XMLHttpRequest();
       rawFile.open("GET", file, false);
       rawFile.onreadystatechange = function() {
         if (rawFile.readyState === 4) {
+
           if (rawFile.status === 200 || rawFile.status == 0) {
             var allText = rawFile.responseText;
-            var lines = allText.val().split('\n');
+
+            var lines = allText.split('\n');
             for (var x = 0; x < lines.length; x++) {
               for(var y = 0; y < classNames.length; y++)
               {
@@ -69,42 +72,34 @@ $(document).ready(function(){
                 newtext = newtext.substr(0, from) + newtext.substr(to+1);
               }
             }
-
-
              $.ajax({
                  url: 'gen.php',
                  type: "POST",
                  dataType:'text',
-                 data: {'data': newtext,'filename':'CModel_'+myVariable+'_'+myVariable2+'_mod.txt'},
+                 data: {'data': newtext,'filename':'pictures_uml/CModel_'+myVariable+'_'+myVariable2+'_modW.txt'},
                  success: function(data){
-                   alert("File Generated");
-                /**   $.ajax({
+                   $.ajax({
                        url: 'script2.php',
                        type: "POST",
                        dataType:'text',
                        data: {'classname':myVariable,'threshold':myVariable2},
                        success: function(data){
-                           document.getElementById('imgaeBox').src= "pictures_uml/CModel_"+myVariable+"_"+myVariable2+".png";
+                           $("#div1").html( "<img src=pictures_uml/CModel_"+myVariable+"_"+myVariable2+"_modW.png>" );
                        }
-                   }); **/
+                   }); 
                  }
              });
-
           }
         }
       }
       rawFile.send(null);
     }
-
-
     $("#getDeletedclass").click(function() {
         classNames = $('input[name="deletedclasses[]"]:checked').map(function () {
     return this.value;}).get();
-    readTextFile("pictures_uml/CModel_"+v1+"_"+v2+".txt");
+    readTextFile("pictures_uml/CModel_"+myVariable+'_'+myVariable2+".txt");
   });
-
   });
-
 });
 </script>
 </head>
@@ -120,18 +115,18 @@ $(document).ready(function(){
       <div class="container home">
     <!-- Example row of columns -->
     <div class="col-md-10 ge-image">
+    
       <!--<img src="CModel_Film_30.png" />-->
       <script type="text/javascript">
-      document.getElementById('imgaeBox').src= "pictures_uml/CModel_"+v1+"_"+v2+".png";
+
+      document.getElementById('imgaeBox').src= "pictures_uml/CModel_"+myVariable+'_'+myVariable2+".png";
       </script>
       <!--                      -->
     </div>
     <div class="col-md-2 ge-list ">
       <form class="" id="d-c">
         <h4> Related Classes : </h4>
-        <div class="class-lists">
-
-      </div>
+        <div class="class-lists"> </div>
         <button  id="getDeletedclass" type="button" class="btn btn-success">Success</button>
       </form>
     </div>

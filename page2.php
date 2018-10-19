@@ -35,16 +35,16 @@ $(document).ready(function(){
       for (var i = 0; i < json.length; i++) {
 
         $(".class-lists").append("<div class='checkbox'> <label><input name='deletedclasses[]' type='checkbox' value='" + json[i] + "' checked>" + json[i] + "</label></div>");
-        
-        
-        
+
+
+
       }
         });
-        
 
-        
-            function readTextFile(file) {
-      console.log(classNames);
+
+
+      function readTextFile(file) {
+
       var rawFile = new XMLHttpRequest();
       rawFile.open("GET", file, false);
       rawFile.onreadystatechange = function() {
@@ -86,7 +86,7 @@ $(document).ready(function(){
                        success: function(data){
                            $("#div1").html( "<img src=pictures_uml/CModel_"+myVariable+"_"+myVariable2+"_modW.png>" );
                        }
-                   }); 
+                   });
                  }
              });
           }
@@ -95,7 +95,11 @@ $(document).ready(function(){
       rawFile.send(null);
     }
     $("#getDeletedclass").click(function() {
-        classNames = $('input[name="deletedclasses[]"]:checked').map(function () {
+      var all, checked, notChecked;
+      all = $('input[name="deletedclasses[]"]');
+      checked = all.filter(":checked");
+      notChecked = all.not(":checked");
+        classNames = $(notChecked).map(function (a) {
     return this.value;}).get();
     readTextFile("pictures_uml/CModel_"+myVariable+'_'+myVariable2+".txt");
   });
@@ -115,7 +119,7 @@ $(document).ready(function(){
       <div class="container home">
     <!-- Example row of columns -->
     <div class="col-md-10 ge-image">
-    
+
       <!--<img src="CModel_Film_30.png" />-->
       <script type="text/javascript">
 

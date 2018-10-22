@@ -25,6 +25,7 @@
 
 <script>
 $(document).ready(function(){
+        var firstTime = true;
         var myVariable = <?php echo(json_encode($_POST["classname"])); ?>;
         var myVariable2 = <?php echo(json_encode($_POST["threshold"])); ?>;
         $('#div1').load("script.php", {'classname': myVariable ,'threshold': myVariable2}, function(){
@@ -33,17 +34,13 @@ $(document).ready(function(){
 
     $.getJSON('pictures_uml/JSONclasses_'+myVariable+'_'+myVariable2+'.json', function(json) {
       for (var i = 0; i < json.length; i++) {
-
         $(".class-lists").append("<div class='checkbox'> <label><input name='deletedclasses[]' type='checkbox' value='" + json[i] + "' checked>" + json[i] + "</label></div>");
-
-
-
       }
-        });
+      });
 
 
 
-      function readTextFile(file) {
+    function readTextFile(file) {
 
       var rawFile = new XMLHttpRequest();
       rawFile.open("GET", file, false);
@@ -99,9 +96,16 @@ $(document).ready(function(){
       all = $('input[name="deletedclasses[]"]');
       checked = all.filter(":checked");
       notChecked = all.not(":checked");
-        classNames = $(notChecked).map(function (a) {
-    return this.value;}).get();
-    readTextFile("pictures_uml/CModel_"+myVariable+'_'+myVariable2+".txt");
+      classNames = $(notChecked).map(function (a) {
+    return this.value;
+  }).get();
+    if(firstTime) {
+      readTextFile("pictures_uml/CModel_"+myVariable+'_'+myVariable2+".txt");
+      firstTime = false;
+    } else {
+      readTextFile("pictures_uml/CModel_"+myVariable+'_'+myVariable2+"_modW.txt");
+    }
+
   });
   });
 });

@@ -28,8 +28,10 @@ $(document).ready(function(){
         var firstTime = true;
         var myVariable = <?php echo(json_encode($_POST["classname"])); ?>;
         var myVariable2 = <?php echo(json_encode($_POST["threshold"])); ?>;
+        $('.ge-list').hide();
         $('#div1').load("script.php", {'classname': myVariable ,'threshold': myVariable2}, function(){
                     $("#testimg").hide();
+                    $('.ge-list').show();
                     var classNames;
 
     $.getJSON('pictures_uml/JSONclasses_'+myVariable+'_'+myVariable2+'.json', function(json) {
@@ -75,12 +77,14 @@ $(document).ready(function(){
                  dataType:'text',
                  data: {'data': newtext,'filename':'pictures_uml/CModel_'+myVariable+'_'+myVariable2+'_modW.txt'},
                  success: function(data){
+                 $("#testimg").show();
                    $.ajax({
                        url: 'script2.php',
                        type: "POST",
                        dataType:'text',
                        data: {'classname':myVariable,'threshold':myVariable2},
                        success: function(data){
+                        $("#testimg").hide();
                           $("#div1").html("<img src=pictures_uml/CModel_"+myVariable+"_"+myVariable2+"_modW.png?timestamp="+new Date().getTime()+">" )
                        }
                    });
@@ -113,29 +117,24 @@ $(document).ready(function(){
 </head>
 <body>
 
-<div id="div1">PLEASE WAIT...</div>
-<div id="testimg">
-<img id="loading" alt="" src="ajax1.gif"/>
-</div>
 
 
 
-      <div class="container home">
+
+
+    <div class="container home">
     <!-- Example row of columns -->
-    <div class="col-md-10 ge-image">
-
-      <!--<img src="CModel_Film_30.png" />-->
-      <script type="text/javascript">
-
-      document.getElementById('imgaeBox').src= "pictures_uml/CModel_"+myVariable+'_'+myVariable2+".png";
-      </script>
-      <!--                      -->
+    <div class="col-md-9" id="div1"></div>
+    <div id="testimg">
+    <!--<img id="loading" alt="" src="ajax.gif"/>-->
+    <svg width="200px"  height="200px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ellipsis" style="background: transparent none repeat scroll 0% 0%;"><!--circle(cx="16",cy="50",r="10")--><circle cx="16" cy="50" r="10" fill="#c7c7c7"><animate attributeName="r" values="10;0;0;0;0" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="0s"></animate><animate attributeName="cx" values="84;84;84;84;84" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="0s"></animate></circle><circle cx="16" cy="50" r="10" fill="#51318f"><animate attributeName="r" values="0;10;10;10;0" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="-1s"></animate><animate attributeName="cx" values="16;16;50;84;84" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="-1s"></animate></circle><circle cx="16" cy="50" r="10" fill="#3dd3ca"><animate attributeName="r" values="0;10;10;10;0" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="-0.5s"></animate><animate attributeName="cx" values="16;16;50;84;84" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="-0.5s"></animate></circle><circle cx="16" cy="50" r="10" fill="#e94709"><animate attributeName="r" values="0;10;10;10;0" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="0s"></animate><animate attributeName="cx" values="16;16;50;84;84" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="0s"></animate></circle><circle cx="16" cy="50" r="10" fill="#c7c7c7"><animate attributeName="r" values="0;0;10;10;10" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="0s"></animate><animate attributeName="cx" values="16;16;16;50;84" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" calcMode="spline" dur="2s" repeatCount="indefinite" begin="0s"></animate></circle></svg>
+    <h2>PLEASE WAIT...</h2>
     </div>
     <div class="col-md-2 ge-list ">
       <form class="" id="d-c">
         <h4> Related Classes : </h4>
         <div class="class-lists"> </div>
-        <button  id="getDeletedclass" type="button" class="btn btn-success">Success</button>
+        <button  id="getDeletedclass" type="button" class="btn btn-success">OK</button>
       </form>
     </div>
 

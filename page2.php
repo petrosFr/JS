@@ -38,6 +38,9 @@ $(document).ready(function(){
       for (var i = 0; i < json.length; i++) {
         $(".class-lists").append("<div class='checkbox'> <label><input name='deletedclasses[]' type='checkbox' value='" + json[i] + "' checked>" + json[i] + "</label></div>");
       }
+        for (var i = 0; i < json.length; i++) {
+        $("#b-class-lists").append("<option value='"+json[i]+"'>"+json[i]+"</option>");
+      }
       });
 
 
@@ -111,6 +114,20 @@ $(document).ready(function(){
     }
 
   });
+    $("#re-script1").click(function() {
+    $("#testimg").show();
+    var newCalss=$('#b-class-lists :selected').text();
+    $.ajax({
+        url: 'script.php',
+        type: "POST",
+        dataType:'text',
+        data: {'classname': newCalss ,'threshold': myVariable2},
+        success: function(data){
+        $("#div2").html( data );
+        $("#testimg").hide();
+        }
+    });
+  });
   });
 });
 </script>
@@ -131,10 +148,21 @@ $(document).ready(function(){
     <h2>PLEASE WAIT...</h2>
     </div>
     <div class="col-md-2 ge-list ">
+    <div class="col-md-9" id="div2"></div>
       <form class="" id="d-c">
         <h4> Related Classes : </h4>
         <div class="class-lists"> </div>
         <button  id="getDeletedclass" type="button" class="btn btn-success">OK</button>
+      </form>
+       <form class="" id="c-b">
+        <div class="b-class-lists">
+    <select id="b-class-lists" name="class">
+        
+         </select> 
+ 
+
+         </div>
+        <button  id="re-script1" type="button" class="btn btn-success">OK</button>  
       </form>
     </div>
 

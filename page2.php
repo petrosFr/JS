@@ -81,7 +81,7 @@ $(document).ready(function(){
                        dataType:'text',
                        data: {'classname':myVariable,'threshold':myVariable2},
                        success: function(data){
-                           $("#div1").html( "<img src=pictures_uml/CModel_"+myVariable+"_"+myVariable2+"_modW.png>" );
+                          $("#div1").html("<img src=pictures_uml/CModel_"+myVariable+"_"+myVariable2+"_modW.png?timestamp="+new Date().getTime()+">" )
                        }
                    });
                  }

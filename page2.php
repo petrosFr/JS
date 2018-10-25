@@ -156,15 +156,6 @@ $(document).ready(function(){
           <div class="class-lists"> </div>
           <button  id="getDeletedclass" type="button" class="btn btn-success">OK</button>
         </form>
-         <form class="" id="c-b">
-          <div class="b-class-lists">
-          <select id="b-class-lists" name="class">
-
-           </select>
-
-           </div>
-          <button  id="re-script1" type="button" class="btn btn-success">OK</button>
-        </form>
       </div>
     </div>
     <div class="row">

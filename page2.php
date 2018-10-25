@@ -161,15 +161,19 @@ $(document).ready(function(){
     <div class="row">
       <div class="col-md-9" id="div2"></div>
       <div class="col-md-2 ge-list ">
+
          <form class="" id="c-b">
           <div class="b-class-lists">
           <select id="b-class-lists" name="class">
+
            </select>
+
            </div>
           <button  id="re-script1" type="button" class="btn btn-success">OK</button>
         </form>
       </div>
     </div>
+
   </div>
 
 
